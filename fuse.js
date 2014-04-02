@@ -294,11 +294,23 @@
                 for (i = 0; i < dataLen; i++) {
                     analyzeText(list[i], i, i);
                 }
-            } else {
-                // Otherwise, the first item is an Object (hopefully), and thus the searching
-                // is done on the values of the keys of each item.
-
-                // Iterate over every item
+            } 
+            // Check if the first item in the list is an object and has a key named 
+            // "Attributes", if it does, it is a BackboneJS model and thus the searching
+            // is done on the values of its attributes
+            else if (Object.prototype.hasOwnProperty.call(list[0], "attributes")) {
+                for (i = 0; i < dataLen; i++) {
+                    item = list[i].attributes;
+                    // Iterate over every key
+                    for (j = 0; j < keys.length; j++) {
+                        analyzeText(item[keys[j]], item, i);
+                    }
+                }
+            } 
+            // Otherwise, the first item is an Object (hopefully), and thus the searching
+            // is done on the values of the keys of each item.
+            // Iterate over every item
+            else {
                 for (i = 0; i < dataLen; i++) {
                     item = list[i];
                     // Iterate over every key
